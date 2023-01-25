@@ -23,11 +23,9 @@ _This tool uses some configurations that you must define before starting, for th
 * KEY= "certificate key file name, in .key format"
 * CERT= "security certificate name in .crt format"
 * DEBUG= "defines if the server will be in debug mode. Possible values: true/false"
-
+* ISCONTAINER= "defines if the connector will be raised in a docker container or not. Possible values: true/false"
 * BDGZ_ACCESS_URL= "You can find this url in the My Account/Control Center API/Access URL tab of your account, and add /v1.0/jsonrpc/push to it, in most cases it is ***https://cloud.gravityzone.bitdefender .com/api/v1.0/jsonrpc/push***"
 * BDGZ_URL= "url of the server or log collector that will receive the Bitdefender logs, example: https://example.com:8000"
-* CONFIG_ENABLED= "Defines if bitdefender will send logs to the server. Possible values: false/true"
-* SERVICE_TYPE= "Defines the format with which the logs will be sent. Possible values: cef/jsonRPC"
 
 _The security certificate and key must be located in the certs folder_
 
@@ -50,19 +48,25 @@ go build
 _Then run the program and the connector will be listening on the designated port_
 
 ```
-.\gz_utmstackconn.exe
+.\gz_utmstackconn
+```
+
+_If you want to build this connector with Docker, just check the port in docker-compose.yml, by default it is set to port 8000 and define the environment variable in the .env ISCONTAINER= "true" . Then you can run:_
+
+```
+docker compose up
 ```
 
 _Then, to send your configuration to the Bitdefender Push API, open another cmd console and run the program passing it the sentConfig parameter._
 
 ```
-.\gz_utmstackconn.exe sentConfig
+.\gz_utmstackconn sentConfig
 ```
 
 _If you want to check your Bitdefender Push API configuration, you should run its executable passing it the getConfig parameter._
 
 ```
-.\gz_utmstackconn.exe getConfig
+.\gz_utmstackconn getConfig
 ```
 
 ## Running tests

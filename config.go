@@ -45,15 +45,11 @@ type TemplateTestPush struct {
 }
 
 func TemplateSetPushEventSettings(auth string) []byte {
-	servType := 0
-	if getenv("CONFIG_ENABLED") == "true" {
-		servType = 1
-	}
 
 	byteTemplate := TemplateConfigSetPush{
 		PARAMS: Params{
-			Status:      servType,
-			ServiceType: getenv("SERVICE_TYPE"),
+			Status:      1,
+			ServiceType: "cef",
 			Servicesettings: ServiceSettings{
 				Url:                        getenv("BDGZ_URL"),
 				Authorization:              auth,
@@ -72,13 +68,13 @@ func TemplateSetPushEventSettings(auth string) []byte {
 				"exchange-user-credentials" : true ,
 				"fw" : true ,
 				"hwid-change" : true ,
-				"install" : true ,
-				"modules" : true ,
+				"install" : false ,
+				"modules" : false ,
 				"network-monitor" : true ,
 				"network-sandboxing" : true ,
 				"new-incident" : true ,
 				"ransomware-mitigation" : true ,
-				"registration" : true ,
+				"registration" : false ,
 				"security-container-update-available" : true ,
 				"supa-update-status" : true ,
 				"sva" : true ,
@@ -86,7 +82,7 @@ func TemplateSetPushEventSettings(auth string) []byte {
 				"task-status" : true ,
 				"troubleshooting-activity" : true ,
 				"uc" : true ,
-				"uninstall" : true
+				"uninstall" : false
 			}`),
 		},
 		JSONRPC: "2.0",

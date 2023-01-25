@@ -71,6 +71,14 @@ func GetBDGZLogs(w http.ResponseWriter, r *http.Request) {
 }
 
 func serverUp() {
+	var certPath string
+
+	if getenv("ISCONTAINER") == "true" {
+		certPath = "/usr/src/app/certs"
+	} else {
+		certPath = path.Join(getMyPath(), "certs")
+	}
+
 	//Defining configuration
 	config = JsonConf{
 		Port:       getenv("PORT"),
@@ -95,7 +103,7 @@ func serverUp() {
 	}
 
 	log.Printf("Listening in port %s...\n", getenv("PORT"))
-	err := server.ListenAndServeTLS(path.Join(getMyPath(), "certs", "server.crt"), path.Join(getMyPath(), "certs", "server.key"))
+	err := server.ListenAndServeTLS(path.Join(certPath, getenv("CERT")), path.Join(certPath, getenv("KEY")))
 	fmt.Println(err)
 
 	//Close connection with syslogServer
