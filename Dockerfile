@@ -4,7 +4,7 @@ RUN apk update
 
 WORKDIR /usr/src/app
 
-COPY certs
+COPY certs .
 COPY auth.go .
 COPY certs.go .
 COPY config.go .
