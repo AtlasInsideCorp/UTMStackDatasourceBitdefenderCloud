@@ -1,0 +1,14 @@
+name: Bitdefender Connector
+
+on:
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+jobs:
+  docker-bitdefender:
+    uses: ./.github/workflows/build-image-go.yml
+    with:
+      image_name: bdgz
+      environment: prod
+      branch: master
