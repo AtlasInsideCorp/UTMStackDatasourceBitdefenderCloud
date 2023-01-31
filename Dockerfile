@@ -9,7 +9,7 @@ COPY auth.go .
 COPY certs.go .
 COPY config.go .
 COPY envVar.go .
-COPY epsSyslogHerlper.go .
+COPY epsSyslogHelper.go .
 COPY go.mod .
 COPY go.sum .
 COPY main.go .
