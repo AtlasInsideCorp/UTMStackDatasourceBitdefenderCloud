@@ -70,21 +70,18 @@ func GetBDGZLogs(w http.ResponseWriter, r *http.Request) {
 	w.Write(j)
 }
 
-func serverUp() {
-	var certPath string
-
-	if getenv("ISCONTAINER") == "true" {
+func serverUp(option int) {
+	certPath := path.Join(getMyPath(), "certs")
+	if option == 1 {
 		certPath = "/usr/src/app/certs"
-	} else {
-		certPath = path.Join(getMyPath(), "certs")
 	}
 
 	//Defining configuration
 	config = JsonConf{
-		Port:       getenv("PORT"),
+		Port:       ":" + getenv("CONNECTOR_PORT"),
 		SyslogPort: getenv("SYSLOG_PORT"),
-		Protocol:   getenv("PROTO"),
-		Target:     getenv("TARGET"),
+		Protocol:   getenv("SYSLOG_PROTOCOL"),
+		Target:     getenv("SYSLOG_HOST"),
 		AuthHeader: generateAuthCode(getenv("BDGZ_API_KEY")),
 	}
 
@@ -95,15 +92,15 @@ func serverUp() {
 	r.HandleFunc("/api", GetBDGZLogs).Methods("POST")
 
 	server := &http.Server{
-		Addr:           getenv("PORT"),
+		Addr:           ":" + getenv("CONNECTOR_PORT"),
 		Handler:        r,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	log.Printf("Listening in port %s...\n", getenv("PORT"))
-	err := server.ListenAndServeTLS(path.Join(certPath, getenv("CERT")), path.Join(certPath, getenv("KEY")))
+	log.Printf("Listening in port %s...\n", getenv("CONNECTOR_PORT"))
+	err := server.ListenAndServeTLS(path.Join(certPath, getenv("CERT_NAME")), path.Join(certPath, getenv("KEY_NAME")))
 	fmt.Println(err)
 
 	//Close connection with syslogServer

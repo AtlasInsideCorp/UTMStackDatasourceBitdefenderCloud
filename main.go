@@ -44,17 +44,25 @@ func main() {
 			myBody, _ := ioutil.ReadAll(resp.Body)
 			fmt.Println(string(myBody))
 			defer resp.Body.Close()
+
+		case "run":
+			//Loading environment variables
+			loadEnv()
+
+			//Check if certificates exist
+			if !checkCerts(2) {
+				log.Fatal("Error, certificates not found in path CURRENT_PATH/certs")
+			}
+
+			serverUp(2)
 		}
 	} else {
-		//Loading environment variables
-		loadEnv()
-
 		//Check if certificates exist
-		if !checkCerts() {
+		if !checkCerts(1) {
 			log.Fatal("Error, certificates not found in path CURRENT_PATH/certs")
 		}
 
-		serverUp()
+		serverUp(1)
 	}
 
 }
