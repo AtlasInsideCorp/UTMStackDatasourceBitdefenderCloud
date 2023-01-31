@@ -5,21 +5,21 @@ import (
 	"path"
 )
 
-func checkCerts() bool {
-	var certPath string
+func checkCerts(option int) bool {
+	certPath := path.Join(getMyPath(), "certs")
 
-	if getenv("ISCONTAINER") == "true" {
+	if option == 1 {
 		certPath = "/usr/src/app/certs"
-	} else {
-		certPath = path.Join(getMyPath(), "certs")
 	}
 	//Check if exist key certificate
-	if _, err := os.Stat(path.Join(certPath, getenv("KEY"))); os.IsNotExist(err) {
+	if _, err := os.Stat(path.Join(certPath, getenv("KEY_NAME"))); os.IsNotExist(err) {
 		return false
 	}
+
 	//Check if exist certificate
-	if _, err := os.Stat(path.Join(certPath, getenv("CERT"))); os.IsNotExist(err) {
+	if _, err := os.Stat(path.Join(certPath, getenv("CERT_NAME"))); os.IsNotExist(err) {
 		return false
 	}
+
 	return true
 }

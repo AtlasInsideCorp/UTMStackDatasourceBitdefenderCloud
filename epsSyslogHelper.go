@@ -26,8 +26,6 @@ func (g *EpsSyslogHelper) sentToSyslog(events []string) {
 	for i := 0; i < len(events); i++ {
 		syslogMessage := events[i]
 		g.clientSyslog.Warning(syslogMessage)
-		if getenv("DEBUG") == "true" {
-			fmt.Println(time.Now(), ": ", events[i])
-		}
+		fmt.Println(time.Now(), ": ", events[i])
 	}
 }
